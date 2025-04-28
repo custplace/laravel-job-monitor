@@ -9,7 +9,8 @@
         "illuminate/database": "^9.0|^10.0",
         "illuminate/queue": "^9.0|^10.0",
         "illuminate/console": "^9.0|^10.0",
-        "illuminate/notifications": "^9.0|^10.0"
+        "illuminate/notifications": "^9.0|^10.0",
+        "custplace/laravel-job-monitor": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -23,6 +24,12 @@
             ]
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/custplace/laravel-job-monitor.git"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
