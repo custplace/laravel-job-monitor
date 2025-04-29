@@ -1,6 +1,6 @@
 <?php
 
-namespace YourNamespace\JobMonitor\Notifications;
+namespace Custplace\JobMonitor\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
