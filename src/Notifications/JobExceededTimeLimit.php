@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class JobExceededTimeLimit extends Notification
+class JobExceededTimeLimit extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -40,13 +40,17 @@ class JobExceededTimeLimit extends Notification
     {
         $appName = config('app.name');
         $environment = app()->environment();
+        $count = $this->stuckJobs->count();
         
-        $message = (new SlackMessage())
+        $message = str_replace([':app_name', ':environment', ':count'], [$appName, $environment, $count], 
+            config('job-monitor.slack.message', "⚠️ *{$appName} - {$environment}*: Found *{$count}* stuck jobs that exceeded their time limits."));
+        
+        $slackMessage = (new SlackMessage())
             ->from(config('job-monitor.slack.username', 'Job Monitor'))
             ->to(config('job-monitor.slack.channel'))
             ->image(config('job-monitor.slack.image', 'https://laravel.com/img/favicon/favicon-32x32.png'))
             ->warning()
-            ->content(config('job-monitor.slack.message', "⚠️ *{$appName} - {$environment}*: Found *{$this->stuckJobs->count()}* stuck jobs that exceeded their time limits."));
+            ->content($message);
 
         // Add attachment with details for each stuck job
         $fields = [];
@@ -76,7 +80,7 @@ class JobExceededTimeLimit extends Notification
             ];
         }
         
-        return $message->attachment(function ($attachment) use ($fields) {
+        return $slackMessage->attachment(function ($attachment) use ($fields) {
             $attachment->title('Stuck Job Details')
                 ->fields($fields);
         });

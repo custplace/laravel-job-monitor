@@ -9,7 +9,8 @@
         "illuminate/database": "^9.0|^10.0",
         "illuminate/queue": "^9.0|^10.0",
         "illuminate/console": "^9.0|^10.0",
-        "illuminate/notifications": "^9.0|^10.0"
+        "illuminate/notifications": "^9.0|^10.0",
+        "laravel/slack-notification-channel": "^3.5"
     },
     "autoload": {
         "psr-4": {

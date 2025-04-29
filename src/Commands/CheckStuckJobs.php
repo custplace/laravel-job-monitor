@@ -32,13 +32,10 @@ class CheckStuckJobs extends Command
 
             // Send Slack notification if enabled
             if (config('job-monitor.slack.enabled', false)) {
-                // Notify via the configured notifiable
-                $notifiable = app(config('job-monitor.slack.notifiable_class', \Illuminate\Notifications\AnonymousNotifiable::class));
+                // Create a new SlackNotifiable instance
+                $notifiable = new \Custplace\JobMonitor\Notifications\SlackNotifiable();
                 
-                if (method_exists($notifiable, 'route')) {
-                    $notifiable->route('slack', config('job-monitor.slack.webhook_url'));
-                }
-                
+                // Send the notification
                 $notifiable->notify(new JobExceededTimeLimit($stuckJobs));
                 $this->info('Notification sent to Slack about ' . $stuckJobs->count() . ' stuck jobs.');
             }
