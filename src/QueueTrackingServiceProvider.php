@@ -10,6 +10,7 @@ use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\JobQueued;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Notifications\ChannelManager;
 
 class QueueTrackingServiceProvider extends ServiceProvider
 {
@@ -100,6 +101,22 @@ class QueueTrackingServiceProvider extends ServiceProvider
                     'job_id' => $jobId,
                 ]);
             }
+        });
+
+        $this->app->make(ChannelManager::class)->extend('slack', function () {
+            return new class {
+                public function send($notifiable, \Illuminate\Notifications\Notification $notification)
+                {
+                    $message = $notification->toSlack($notifiable);
+                    if (is_string($message)) {
+                        $message = ['text' => $message];
+                    }
+
+                    $webhookUrl = env('SLACK_WEBHOOK_URL');
+
+                    Http::post($webhookUrl, $message);
+                }
+            };
         });
     }
 
