@@ -48,41 +48,18 @@ class JobExceededTimeLimit extends Notification implements ShouldQueue
         $slackMessage = (new SlackMessage())
             ->from(config('job-monitor.slack.username', 'Job Monitor'))
             ->to(config('job-monitor.slack.channel'))
-            ->image(config('job-monitor.slack.image', 'https://laravel.com/img/favicon/favicon-32x32.png'))
             ->warning()
             ->content($message);
 
-        // Add attachment with details for each stuck job
-        $fields = [];
-        
-        foreach ($this->stuckJobs as $job) {
-            $runningTime = $job->running_time;
-            $maxTime = $job->max_execution_time;
-            $percentage = number_format($job->time_percentage, 1);
-            
-            $fields[] = [
-                'title' => class_basename($job->job_class),
-                'value' => "Queue: {$job->queue}\nRunning: {$runningTime}s / {$maxTime}s ({$percentage}%)\nStarted: {$job->started_at->diffForHumans()}",
-                'short' => true
-            ];
-        }
-        
-        // Limit the number of fields to avoid hitting Slack's message limits
-        $maxJobsToDisplay = config('job-monitor.slack.max_jobs_in_notification', 10);
-        $fields = array_slice($fields, 0, $maxJobsToDisplay);
-        
-        if ($this->stuckJobs->count() > $maxJobsToDisplay) {
-            $extraCount = $this->stuckJobs->count() - $maxJobsToDisplay;
-            $fields[] = [
-                'title' => 'Additional stuck jobs',
-                'value' => "Plus {$extraCount} more stuck jobs not shown here",
-                'short' => false
-            ];
-        }
-        
-        return $slackMessage->attachment(function ($attachment) use ($fields) {
+        $job = $this->stuckJobs->first();
+
+        return $slackMessage->attachment(function ($attachment) use ($job) {
             $attachment->title('Stuck Job Details')
-                ->fields($fields);
+                ->fields([
+                    'Class' => $job->job_class,
+                    'Started At' => $job->started_at->format('Y-m-d H:i:s'),
+                    'Running Time' => \Carbon\Carbon::now()->diffInMinutes($job->started_at),
+                ]);
         });
     }
 }
