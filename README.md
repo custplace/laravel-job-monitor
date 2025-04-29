@@ -7,7 +7,7 @@ A Laravel package to monitor job execution and notify about stuck jobs.
 You can install the package via composer:
 
 ```bash
-composer require yournamespace/laravel-job-monitor
+composer require custplace/laravel-job-monitor
 ```
 
 The package will automatically register its service provider.
@@ -17,8 +17,8 @@ The package will automatically register its service provider.
 You can publish the config file and migrations with:
 
 ```bash
-php artisan vendor:publish --provider="YourNamespace\JobMonitor\JobMonitorServiceProvider" --tag="job-monitor-config"
-php artisan vendor:publish --provider="YourNamespace\JobMonitor\JobMonitorServiceProvider" --tag="job-monitor-migrations"
+php artisan vendor:publish --provider="Custplace\JobMonitor\JobMonitorServiceProvider" --tag="job-monitor-config"
+php artisan vendor:publish --provider="Custplace\JobMonitor\JobMonitorServiceProvider" --tag="job-monitor-migrations"
 ```
 
 Run the migrations:
@@ -52,7 +52,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use YourNamespace\JobMonitor\Traits\TracksQueueJobs;
+use Custplace\JobMonitor\Traits\TracksQueueJobs;
 
 class ProcessPodcast implements ShouldQueue
 {
