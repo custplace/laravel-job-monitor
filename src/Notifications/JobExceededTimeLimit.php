@@ -58,7 +58,7 @@ class JobExceededTimeLimit extends Notification implements ShouldQueue
                 ->fields([
                     'Class' => $job->job_class,
                     'Started At' => $job->started_at->format('Y-m-d H:i:s'),
-                    'Running Time' => \Carbon\Carbon::now()->diffInMinutes($job->started_at),
+                    'Running Time' => \Carbon\Carbon::now()->diffInMinutes($job->started_at) . ' mins',
                 ]);
         });
     }
