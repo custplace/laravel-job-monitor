@@ -40,6 +40,7 @@ return [
         'username' => env('JOB_MONITOR_SLACK_USERNAME', 'Job Monitor'),
         'message' => env('JOB_MONITOR_SLACK_MESSAGE', '⚠️ *:app_name - :environment*: Found *:count* stuck jobs that exceeded their time limits.'),
         'max_jobs_in_notification' => env('JOB_MONITOR_SLACK_MAX_JOBS', 10),
+        'image' => env('JOB_MONITOR_SLACK_IMAGE', 'https://laravel.com/img/favicon/favicon-32x32.png'),
         'notifiable_class' => \Illuminate\Notifications\AnonymousNotifiable::class,
     ]
 ];

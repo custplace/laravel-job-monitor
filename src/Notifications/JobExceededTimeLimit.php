@@ -48,6 +48,7 @@ class JobExceededTimeLimit extends Notification implements ShouldQueue
         $slackMessage = (new SlackMessage())
             ->from(config('job-monitor.slack.username', 'Job Monitor'))
             ->to(config('job-monitor.slack.channel'))
+            ->image(config('job-monitor.slack.image', 'https://laravel.com/img/favicon/favicon-32x32.png'))
             ->warning()
             ->content($message);
 
