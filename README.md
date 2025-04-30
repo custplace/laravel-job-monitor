@@ -88,7 +88,15 @@ class ProcessPodcast implements ShouldQueue
     }
 }
 ```
+### Upadete service provider
+Make sure the package's service provider is registered in config/app.php:
 
+```php
+'providers' => [
+    // Other providers...
+    Custplace\JobMonitor\JobMonitorServiceProvider::class,
+],
+```
 ### Check for stuck jobs
 
 You can check for stuck jobs manually:
@@ -103,8 +111,7 @@ Or automatically by adding the command to your scheduler in `app/Console/Kernel.
 protected function schedule(Schedule $schedule)
 {
     // Check for stuck jobs every 5 minutes (or whatever frequency you prefer)
-    $schedule->command('job-monitor:check-stuck-jobs')
-             ->cron(config('job-monitor.schedule_frequency'));
+    $schedule->command('job-monitor:check-stuck-jobs')->everyTenMinutes();
 }
 ```
 
