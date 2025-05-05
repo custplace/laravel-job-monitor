@@ -3,12 +3,11 @@
 namespace Custplace\JobMonitor\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Collection;
 
-class JobExceededTimeLimit extends Notification implements ShouldQueue
+class JobExceededTimeLimit extends Notification
 {
     use Queueable;
 
