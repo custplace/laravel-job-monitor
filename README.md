@@ -4,6 +4,17 @@ A Laravel package to monitor job execution and notify about stuck jobs.
 
 ## Installation
 
+Before instalation make sure to add this in composer.json
+
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/custplace/digitalbricks-sdk.git"
+    }
+]
+```
+
 You can install the package via composer:
 
 ```bash
