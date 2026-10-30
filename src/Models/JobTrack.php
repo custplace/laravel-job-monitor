@@ -40,7 +40,7 @@ class JobTrack extends Model
             return false;
         }
 
-        $runningTime = now()->diffInSeconds($this->started_at);
+        $runningTime = $this->started_at->diffInSeconds(now());
         return $runningTime > $this->max_execution_time;
     }
 
@@ -54,10 +54,10 @@ class JobTrack extends Model
         }
 
         if ($this->finished_at) {
-            return $this->finished_at->diffInSeconds($this->started_at);
+            return $this->started_at->diffInSeconds($this->finished_at);
         }
 
-        return now()->diffInSeconds($this->started_at);
+        return $this->started_at->diffInSeconds(now());
     }
 
     /**

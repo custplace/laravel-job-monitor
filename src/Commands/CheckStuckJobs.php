@@ -49,7 +49,7 @@ class CheckStuckJobs extends Command
                         $job->job_class,
                         $job->queue,
                         $job->started_at->format('Y-m-d H:i:s'),
-                        $job->running_time . ' sec',
+                        (int) $job->running_time . ' sec',
                         $job->max_execution_time . ' sec',
                         number_format($job->time_percentage, 1) . '%',
                     ];

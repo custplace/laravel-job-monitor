@@ -61,7 +61,7 @@ class QueueTrackingServiceProvider extends ServiceProvider
                 if ($trackRecord) {
                     $trackRecord->status = 'succeeded';
                     $trackRecord->finished_at = now();
-                    $trackRecord->execution_time = now()->diffInSeconds($trackRecord->started_at);
+                    $trackRecord->execution_time = (int) $trackRecord->started_at->diffInSeconds(now());
                     $trackRecord->save();
                     
                     // Auto-cleanup if configured
@@ -90,7 +90,7 @@ class QueueTrackingServiceProvider extends ServiceProvider
                 if ($trackRecord) {
                     $trackRecord->status = 'failed';
                     $trackRecord->finished_at = now();
-                    $trackRecord->execution_time = now()->diffInSeconds($trackRecord->started_at);
+                    $trackRecord->execution_time = (int) $trackRecord->started_at->diffInSeconds(now());
                     $trackRecord->exception = $exception->getMessage() . "\n" . $exception->getTraceAsString();
                     $trackRecord->save();
                 }
