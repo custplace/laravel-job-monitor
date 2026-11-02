@@ -58,7 +58,7 @@ class JobExceededTimeLimit extends Notification
                 ->fields([
                     'Class' => $job->job_class,
                     'Started At' => $job->started_at->format('Y-m-d H:i:s'),
-                    'Running Time' => \Carbon\Carbon::now()->diffInMinutes($job->started_at) . ' mins',
+                    'Running Time' => (int) $job->started_at->diffInMinutes(now()) . ' mins',
                 ]);
         });
     }
